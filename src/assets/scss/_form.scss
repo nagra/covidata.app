@@ -1,0 +1,39 @@
+form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  margin: 0 auto;
+  max-width: 24rem;
+  padding: 0 1rem;
+}
+
+input, button {
+    border: none;
+    border-radius: 0.25rem;
+    outline: none;
+    font-size: 1.125rem;
+    padding: 0.5rem 1rem;
+}
+
+label {
+  color: #FFF;
+  font-size: 1.25rem;
+}
+
+button {
+  background-color: $success-color;
+  align-self: center;
+
+  &:disabled {
+    opacity: 0.8;
+  }
+}
+
+.field-field {
+  display: flex;
+  column-gap: 0.5rem;
+
+  input {
+    width: 100%;
+  }
+}

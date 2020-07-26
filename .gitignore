@@ -20,3 +20,8 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+.idea
+**/.firebaserc
+.runtimeconfig.json
+.firebase/
