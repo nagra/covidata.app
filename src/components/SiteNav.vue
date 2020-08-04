@@ -1,11 +1,11 @@
 <template>
   <nav id="nav">
     <div v-if="!loggedIn">
-      <router-link to="/login">Login</router-link>
+      <!-- <router-link to="/login">Login</router-link> -->
     </div>
     <div v-else>
       <router-link to="/dashboard">Dashboard</router-link>
-      <router-link to="/account">Account</router-link>
+      <!-- <router-link to="/account">Account</router-link> -->
       <a href="#" @click="logout()">Logout</a>
     </div>
   </nav>
@@ -31,11 +31,13 @@ export default {
 
 <style lang="scss" scoped>
 #nav {
-  margin: 0.5rem;
+  margin: 0.5rem 0 0.5rem 0.5rem;
 
   div {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-auto-columns: auto;
+    grid-auto-flow: column;
+    justify-items: stretch;
     column-gap: 0.5rem;
   }
 

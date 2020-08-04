@@ -22,8 +22,8 @@ const authClass = firebase.auth;
 
 // collection references
 const usersCollection = db.collection("users");
-const visitsCollection = db.collection("visits");
 const venuesCollection = db.collection("venues");
+const visitsCollection = db.collection("visits");
 
 // export utils/refs
 export {
@@ -31,6 +31,6 @@ export {
   auth,
   authClass,
   usersCollection,
-  visitsCollection,
   venuesCollection,
+  visitsCollection
 };

@@ -1,24 +1,7 @@
 <template>
   <section class="login">
     <h1>Login</h1>
-    <form v-on:submit.prevent v-if="showOTP">
-      <input
-        v-model.trim="loginForm.otp"
-        type="text"
-        id="otp"
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"
-        aria-required="true"
-        required="required"
-        spellcheck="false"
-        placeholder="Verification Code"
-        autofocus=""
-      />
-      <button id="verify-button" :disabled="!canSubmitOTP" @click="verify()">
-        Verify
-      </button>
-    </form>
+    <VerifyOTPForm v-if="showOTP"></VerifyOTPForm>
     <form v-on:submit.prevent v-else>
       <input
         v-model.trim="loginForm.phone"
@@ -42,6 +25,7 @@
 
 <script>
 import * as fb from "../firebase";
+import VerifyOTPForm from "@/components/VerifyOTPForm";
 
 export default {
   data() {
@@ -50,9 +34,11 @@ export default {
       appVerifier: "",
       loginForm: {
         phone: "",
-        otp: "",
       },
     };
+  },
+  components: {
+    VerifyOTPForm,
   },
   methods: {
     login() {
@@ -67,9 +53,6 @@ export default {
         .then((error) => {
           console.log(error);
         });
-    },
-    verify() {
-      this.$store.dispatch("verifyOTP", this.loginForm.otp);
     },
     recaptcha() {
       setTimeout(() => {
@@ -98,10 +81,6 @@ export default {
     canSubmit() {
       // TODO: validate for number
       return this.loginForm.phone != "";
-    },
-    canSubmitOTP() {
-      // TODO: Check for numbers only
-      return this.loginForm.otp != "";
     },
   },
   created() {

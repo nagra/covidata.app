@@ -5,6 +5,7 @@ import Login from "../views/Login.vue";
 import Dashboard from "../views/Dashboard.vue";
 import Account from "../views/Account.vue";
 import SignUp from "../views/SignUp.vue";
+import Visit from "../views/Visit.vue";
 import { auth } from '../firebase';
 
 Vue.use(VueRouter);
@@ -40,6 +41,10 @@ const routes = [
     meta: {
       requiresAuth: true
     }
+  },
+  { 
+    path: '/:id', 
+    component: Visit 
   }
 ];
 

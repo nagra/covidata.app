@@ -1,0 +1,13 @@
+.list {
+  display: flex;
+  justify-content: center;
+  row-gap: 0.125rem;
+  margin: 1rem;
+  padding: auto 1.25rem;
+
+  > div {
+    background-color: #004B93;
+    border-radius: 0.5rem;
+    flex-grow: 1;
+  }
+}
