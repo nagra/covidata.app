@@ -3,8 +3,6 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Dashboard from "../views/Dashboard.vue";
-import Account from "../views/Account.vue";
-import SignUp from "../views/SignUp.vue";
 import Visit from "../views/Visit.vue";
 import { auth } from "../firebase";
 
@@ -16,16 +14,16 @@ const routes = [
     name: "Home",
     component: Home,
     meta: {
-      title: "Covidata.",
-    },
+      title: "Covidata."
+    }
   },
   {
     path: "/login",
     name: "Login",
     component: Login,
     meta: {
-      title: "Login",
-    },
+      title: "Login"
+    }
   },
   {
     path: "/dashboard",
@@ -33,22 +31,22 @@ const routes = [
     component: Dashboard,
     meta: {
       title: "Dashboard",
-      requiresAuth: true,
-    },
+      requiresAuth: true
+    }
   },
   {
     path: "/:id",
     component: Visit,
     meta: {
-      title: "Log a Visit",
-    },
-  },
+      title: "Log a Visit"
+    }
+  }
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes,
+  routes
 });
 
 router.beforeEach((to, from, next) => {

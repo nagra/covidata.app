@@ -50,8 +50,8 @@ export default {
       appVerifier: "",
       loginForm: {
         phone: "",
-        otp: "",
-      },
+        otp: ""
+      }
     };
   },
   methods: {
@@ -59,12 +59,12 @@ export default {
       this.$store
         .dispatch("login", {
           phone: this.loginForm.phone,
-          appVerifier: this.appVerifier,
+          appVerifier: this.appVerifier
         })
-        .then((success) => {
+        .then(success => {
           this.showOTP = success;
         })
-        .then((error) => {
+        .then(error => {
           console.log(error);
         });
     },
@@ -86,13 +86,13 @@ export default {
               // Response expired. Ask user to solve reCAPTCHA again.
               // ...
               console.log(error);
-            },
+            }
           }
         );
         //
         this.appVerifier = window.recaptchaVerifier;
       }, 1000);
-    },
+    }
   },
   computed: {
     canSubmit() {
@@ -102,10 +102,10 @@ export default {
     canSubmitOTP() {
       // TODO: Check for numbers only
       return this.loginForm.otp != "";
-    },
+    }
   },
   created() {
     this.recaptcha();
-  },
+  }
 };
 </script>

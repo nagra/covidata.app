@@ -9,13 +9,13 @@
 </template>
 
 <script>
-import SiteNav from '@/components/SiteNav'
+import SiteNav from "@/components/SiteNav";
 
 export default {
   components: {
     SiteNav
-  },
-}
+  }
+};
 </script>
 
 <style lang="scss" scoped>

@@ -17,14 +17,14 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("logout");
-    },
+    }
   },
   computed: {
     ...mapState(["userProfile"]),
     loggedIn() {
       return Object.keys(this.userProfile).length > 1;
-    },
-  },
+    }
+  }
 };
 </script>
 

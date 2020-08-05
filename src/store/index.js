@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Vue from "vue";
 import Vuex from "vuex";
 import * as fb from "../firebase";
@@ -11,7 +12,7 @@ const store = new Vuex.Store({
   state: {
     userProfile: {},
     confirmationResult: {},
-    visits: [],
+    visits: []
   },
   mutations: {
     setUserProfile(state, val) {
@@ -22,7 +23,7 @@ const store = new Vuex.Store({
     },
     setVisits(state, val) {
       state.visits = val;
-    },
+    }
   },
   actions: {
     async login({ commit, dispatch }, args) {
@@ -83,13 +84,13 @@ const store = new Vuex.Store({
     async seat({ state }, visit) {
       // seat visit
       fb.visitsCollection.doc(visit.id).update({
-        seated_at: new Date(),
+        seated_at: new Date()
       });
     },
     async left({ state }, visit) {
       // seat visit
       fb.visitsCollection.doc(visit.id).update({
-        left_at: new Date(),
+        left_at: new Date()
       });
     },
     async log({ state }, log) {
@@ -100,16 +101,16 @@ const store = new Vuex.Store({
       fb.visitsCollection.doc().set({
         user: {
           maskedName: `${log.firstName + " " + log.lastName}`,
-          maskedNumber: log.mobile,
+          maskedNumber: log.mobile
         },
-        venue: venue.docs[0].id,
+        venue: venue.docs[0].id
       });
       // redirect to login view
       router.push("/");
-    },
+    }
   },
   modules: {},
-  getters: {},
+  getters: {}
 });
 
 export default store;

@@ -54,7 +54,7 @@ import moment from "moment";
 export default {
   data() {
     return {
-      isHistory: false,
+      isHistory: false
     };
   },
   computed: {
@@ -71,7 +71,7 @@ export default {
     },
     isShowingHistory() {
       return this.isHistory && this.historicalVisits;
-    },
+    }
   },
   methods: {
     seat(visit) {
@@ -85,7 +85,7 @@ export default {
     },
     showHistory() {
       this.isHistory = true;
-    },
+    }
   },
   filters: {
     formatDate(val) {
@@ -95,8 +95,8 @@ export default {
 
       let date = val.toDate();
       return moment(date).calendar();
-    },
-  },
+    }
+  }
 };
 </script>
 

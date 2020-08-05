@@ -5,7 +5,7 @@
   </section>
 </template>
 <script>
-import SignUpForm from '@/components/SignUpForm'
+import SignUpForm from "@/components/SignUpForm";
 
 export default {
   components: {
@@ -13,10 +13,8 @@ export default {
   },
   data() {
     return {
-      signUpForm: {
-       
-      },
+      signUpForm: {}
     };
-  },
+  }
 };
 </script>
