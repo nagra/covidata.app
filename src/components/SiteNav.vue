@@ -5,7 +5,6 @@
     </div>
     <div v-else>
       <router-link to="/dashboard">Dashboard</router-link>
-      <!-- <router-link to="/account">Account</router-link> -->
       <a href="#" @click="logout()">Logout</a>
     </div>
   </nav>
