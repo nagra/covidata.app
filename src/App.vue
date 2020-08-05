@@ -4,7 +4,7 @@
       <h1><router-link to="/">Covidata.</router-link></h1>
       <SiteNav></SiteNav>
     </header>
-    <router-view />
+    <router-view></router-view>
   </div>
 </template>
 
@@ -14,7 +14,7 @@ import SiteNav from '@/components/SiteNav'
 export default {
   components: {
     SiteNav
-  }
+  },
 }
 </script>
 
