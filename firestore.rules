@@ -4,8 +4,15 @@ service cloud.firestore {
     return request.auth != null;
   }
   match /databases/{database}/documents {
+    match /venues {
+    	allow read, write: if isSignedIn();
+    }
+    match /visit {
+    	allow read, write;
+    }
     match /{document=**} {
-      allow read, write: if isSignedIn();
+      allow read;
+      allow write: if isSignedIn();
     }
   }
 }

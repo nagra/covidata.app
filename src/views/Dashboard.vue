@@ -1,36 +1,77 @@
 <template>
   <div class="dashboard">
     <nav>
-      <a class="button" @click="showLive()" v-bind:class="{active: !isHistory}" href="#">Live</a>
-      <a class="button" @click="showHistory()" v-bind:class="{active: isHistory}" href="#">History</a>
+      <a
+        class="button"
+        @click="showLive()"
+        v-bind:class="{ active: !isHistory }"
+        href="#"
+        >Live</a
+      >
+      <a
+        class="button"
+        @click="showHistory()"
+        v-bind:class="{ active: isHistory }"
+        href="#"
+        >History</a
+      >
     </nav>
-    <section v-if="visits.length" class="list">
-      <div v-for="visit in visits" :key="visit.id" class="visit">
-        <div v-if="((!visit.left_at || !visit.seated_at) && !isHistory) || (visit.left_at && visit.seated_at && isHistory)" class="customer">
-          <p>{{ visit.user.maskedName }}</p>
-          <p>{{ visit.user.maskedNumber }}</p>
+    <section class="list">
+      <section class="live" v-if="!isShowingHistory">
+        <div v-for="visit in liveVisits" :key="visit.id" class="visit">
+          <div class="customer">
+            <p>{{ visit.user.maskedName }}</p>
+            <p>{{ visit.user.maskedNumber }}</p>
+          </div>
+          <div class="actions">
+            <a v-if="!visit.seated_at" @click="seat(visit)" class="seated"
+              >Seated</a
+            >
+            <a v-else-if="!visit.left_at" @click="left(visit)" class="left"
+              >Left</a
+            >
+          </div>
         </div>
-        <div class="actions">
-          <a v-if="!visit.seated_at && !isHistory" @click="seat(visit)" class="seated">Seated</a>
-          <a v-else-if="!visit.left_at && !isHistory" @click="left(visit)" class="left">Left</a>
-          <p v-else-if="visit.left_at && isHistory">{{ visit.left_at | formatDate }}</p>
+      </section>
+      <section class="history" v-if="isHistory">
+        <div v-for="visit in historicalVisits" :key="visit.id" class="visit">
+          <div class="customer">
+            <p>{{ visit.user.maskedName }}</p>
+            <p>{{ visit.user.maskedNumber }}</p>
+          </div>
+          <div class="actions">
+            <p>{{ visit.left_at | formatDate }}</p>
+          </div>
         </div>
-      </div>
+      </section>
     </section>
   </div>
 </template>
 <script>
 import { mapState } from "vuex";
-import moment from 'moment'
+import moment from "moment";
 
 export default {
   data() {
     return {
-      isHistory: false
+      isHistory: false,
     };
   },
   computed: {
-    ...mapState(["visits"])
+    ...mapState(["visits"]),
+    liveVisits() {
+      return this.visits.filter(function(visit) {
+        return !visit.left_at || !visit.seated_at;
+      });
+    },
+    historicalVisits() {
+      return this.visits.filter(function(visit) {
+        return visit.left_at && visit.seated_at;
+      });
+    },
+    isShowingHistory() {
+      return this.isHistory && this.historicalVisits;
+    },
   },
   methods: {
     seat(visit) {
@@ -44,16 +85,18 @@ export default {
     },
     showHistory() {
       this.isHistory = true;
-    }
+    },
   },
   filters: {
     formatDate(val) {
-      if (!val) { return '-' }
+      if (!val) {
+        return "-";
+      }
 
       let date = val.toDate();
       return moment(date).calendar();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -105,7 +148,7 @@ nav {
       }
 
       &.left {
-        background-color: #B26E6E;
+        background-color: #b26e6e;
       }
     }
   }

@@ -30,45 +30,38 @@ const store = new Vuex.Store({
       return new Promise(function(resolve, reject) {
         fb.auth
           .signInWithPhoneNumber(args.phone, args.appVerifier)
-          .then((confirmationResult) => {
+          .then(confirmationResult => {
             commit("setConfirmationResult", confirmationResult);
             resolve(true);
           })
-          .catch((error) => {
+          .catch(error => {
             reject(error);
           });
       });
     },
     async verifyOTP({ dispatch }, code) {
-      this.state.confirmationResult
-        .confirm(code)
-        .then((result) => {
-          dispatch("fetchUserProfile", result.user);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      this.state.confirmationResult.confirm(code).then(function(result) {
+        dispatch("fetchUserProfile", result.user);
+      });
     },
     async fetchVisitsForOwner({ commit }, id) {
       const venue = await fb.venuesCollection.where("owner", "==", id).get();
       fb.visitsCollection
         .where("venue", "==", venue.docs[0].id)
-        .onSnapshot((snapshot) => {
+        .onSnapshot(snapshot => {
           let visitsArray = [];
 
-          snapshot.forEach((doc) => {
+          snapshot.forEach(doc => {
             let visit = doc.data();
             visit.id = doc.id;
             visitsArray.push(visit);
           });
-
           commit("setVisits", visitsArray);
         });
     },
     async fetchUserProfile({ commit, dispatch }, user) {
       // fetch user profile
       const userProfile = await fb.usersCollection.doc(user.uid).get();
-
       // set user profile in state
       dispatch("fetchVisitsForOwner", user.uid);
       commit("setUserProfile", userProfile);
@@ -89,7 +82,6 @@ const store = new Vuex.Store({
     },
     async seat({ state }, visit) {
       // seat visit
-      console.log(visit);
       fb.visitsCollection.doc(visit.id).update({
         seated_at: new Date(),
       });
@@ -99,6 +91,21 @@ const store = new Vuex.Store({
       fb.visitsCollection.doc(visit.id).update({
         left_at: new Date(),
       });
+    },
+    async log({ state }, log) {
+      // seat visit
+      const venue = await fb.venuesCollection
+        .where("username", "==", log.venue)
+        .get();
+      fb.visitsCollection.doc().set({
+        user: {
+          maskedName: `${log.firstName + " " + log.lastName}`,
+          maskedNumber: log.mobile,
+        },
+        venue: venue.docs[0].id,
+      });
+      // redirect to login view
+      router.push("/");
     },
   },
   modules: {},
