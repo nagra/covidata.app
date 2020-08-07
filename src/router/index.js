@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Dashboard from "../views/Dashboard.vue";
 import Visit from "../views/Visit.vue";
+import Success from "../views/Success.vue";
 import { auth } from "../firebase";
 import store from "../store";
 
@@ -33,6 +34,15 @@ const routes = [
     meta: {
       title: "Dashboard",
       requiresAuth: true
+    }
+  },
+  {
+    path: "/success",
+    name: "Success",
+    component: Success,
+    meta: {
+      title: "Successfully Logged",
+      headerless: true
     }
   },
   {

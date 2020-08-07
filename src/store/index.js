@@ -108,7 +108,7 @@ const store = new Vuex.Store({
     },
     async log({ state }, { log, venueID }) {
       // seat visit
-      fb.visitsCollection.doc().set({
+      await fb.visitsCollection.doc().set({
         user: {
           first_name: log.firstName,
           last_name: log.lastName,
@@ -123,7 +123,7 @@ const store = new Vuex.Store({
         created_at: new Date()
       });
       // redirect to login view
-      router.push("/");
+      router.push("/success");
     },
     async getVenue({ dispatch }, username) {
       return new Promise((resolve, reject) => {
