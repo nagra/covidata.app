@@ -1,18 +1,19 @@
 rules_version = '2';
 service cloud.firestore {
-  function isSignedIn() {
-    return request.auth != null;
-  }
   match /databases/{database}/documents {
-    match /venues {
-    	allow read, write: if isSignedIn();
+		match /{document=**} {
+      allow read, write: if true;
     }
-    match /visit {
-    	allow read, write;
-    }
-    match /{document=**} {
-      allow read;
-      allow write: if isSignedIn();
-    }
+    // match /venues/{venue} {
+    // 	allow read;
+    // } 
+    // match /visits/{visit} {
+  	// 	function isSignedIn() {
+    //     return request.auth != null;
+    //   }
+      
+  	// 	allow write;
+    //   allow read, write: if isSignedIn();
+    // }
   }
 }

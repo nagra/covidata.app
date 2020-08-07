@@ -1,9 +1,8 @@
 form {
   display: flex;
   flex-direction: column;
-  row-gap: 0.5rem;
+  row-gap: 0.625rem;
   margin: 0 auto;
-  max-width: 24rem;
   padding: 0 1rem;
 }
 
@@ -22,18 +21,15 @@ label {
 
 button {
   background-color: $success-color;
-  align-self: center;
+  align-self: stretch;
 
   &:disabled {
     opacity: 0.8;
   }
 }
 
-.field-field {
-  display: flex;
-  column-gap: 0.5rem;
-
-  input {
-    width: 100%;
+@media screen and (min-width: 400px){
+  form {
+    max-width: 24rem;
   }
 }

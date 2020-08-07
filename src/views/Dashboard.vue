@@ -20,10 +20,11 @@
       <section class="live" v-if="!isShowingHistory">
         <div v-for="visit in liveVisits" :key="visit.id" class="visit">
           <div class="customer">
-            <p>{{ visit.user.maskedName }}</p>
-            <p>{{ visit.user.maskedNumber }}</p>
+            <p>{{ visit.masked.name }}</p>
+            <p>{{ visit.masked.mobile }}</p>
           </div>
           <div class="actions">
+            <p class="total-guests">{{ visit.user.total_guests }}</p>
             <a v-if="!visit.seated_at" @click="seat(visit)" class="seated"
               >Seated</a
             >
@@ -36,10 +37,11 @@
       <section class="history" v-if="isHistory">
         <div v-for="visit in historicalVisits" :key="visit.id" class="visit">
           <div class="customer">
-            <p>{{ visit.user.maskedName }}</p>
-            <p>{{ visit.user.maskedNumber }}</p>
+            <p>{{ visit.masked.name }}</p>
+            <p>{{ visit.masked.mobile }}</p>
           </div>
           <div class="actions">
+            <p class="total-guests">{{ visit.user.total_guests }}</p>
             <p>{{ visit.left_at | formatDate }}</p>
           </div>
         </div>
@@ -129,6 +131,14 @@ nav {
   }
 
   .actions {
+    .total-guests {
+      font-size: 1.5rem;
+      margin: 0 0 0.5rem;
+      background-color: #000;
+      border-radius: 0.5rem;
+      padding: 0.25rem;
+      font-weight: bold;
+    }
     a {
       align-self: center;
       display: block;

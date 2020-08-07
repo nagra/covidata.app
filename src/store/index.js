@@ -12,7 +12,8 @@ const store = new Vuex.Store({
   state: {
     userProfile: {},
     confirmationResult: {},
-    visits: []
+    visits: [],
+    loading: false,
   },
   mutations: {
     setUserProfile(state, val) {
@@ -23,9 +24,15 @@ const store = new Vuex.Store({
     },
     setVisits(state, val) {
       state.visits = val;
-    }
+    },
+    setLoading(state, val) {
+      state.loading = val;
+    },
   },
   actions: {
+    async loading({ commit }, isShown) {
+      commit("setLoading", isShown);
+    },
     async login({ commit, dispatch }, args) {
       // sign user in
       return new Promise(function(resolve, reject) {
@@ -46,7 +53,13 @@ const store = new Vuex.Store({
       });
     },
     async fetchVisitsForOwner({ commit }, id) {
-      const venue = await fb.venuesCollection.where("owner", "==", id).get();
+      const roleID = "roles." + id;
+      const venue = await fb.venuesCollection
+        .where(roleID, "in", ["owner", "editor"])
+        .get();
+      if (venue.size == 0) {
+        return;
+      }
       fb.visitsCollection
         .where("venue", "==", venue.docs[0].id)
         .onSnapshot(snapshot => {
@@ -84,33 +97,81 @@ const store = new Vuex.Store({
     async seat({ state }, visit) {
       // seat visit
       fb.visitsCollection.doc(visit.id).update({
-        seated_at: new Date()
+        seated_at: new Date(),
       });
     },
     async left({ state }, visit) {
       // seat visit
       fb.visitsCollection.doc(visit.id).update({
-        left_at: new Date()
+        left_at: new Date(),
       });
     },
-    async log({ state }, log) {
+    async log({ state }, { log, venueID }) {
       // seat visit
-      const venue = await fb.venuesCollection
-        .where("username", "==", log.venue)
-        .get();
       fb.visitsCollection.doc().set({
         user: {
-          maskedName: `${log.firstName + " " + log.lastName}`,
-          maskedNumber: log.mobile
+          first_name: log.firstName,
+          last_name: log.lastName,
+          total_guests: log.totalGuests,
+          mobile: log.mobile,
         },
-        venue: venue.docs[0].id
+        masked: {
+          name: log.maskedName,
+          mobile: log.maskedMobile,
+        },
+        venue: venueID,
+        created_at: new Date()
       });
       // redirect to login view
       router.push("/");
-    }
+    },
+    async getVenue({ dispatch }, username) {
+      return new Promise((resolve, reject) => {
+        fb.venuesCollection
+          .where("username", "==", username)
+          .get()
+          .then(result => {
+            if(result.size == 0) {
+              reject(new Error('NO_RESULTS'));
+              return;
+            }
+            const venue = result.docs[0].data();
+
+            if (venue.address) {
+              const address = [
+                typeof venue.address.address_line_1 != undefined
+                  ? venue.address.address_line_1
+                  : false,
+                typeof venue.address.address_line_2 != undefined
+                  ? venue.address.address_line_2
+                  : false,
+                typeof venue.address.city != undefined
+                  ? venue.address.city
+                  : false,
+                typeof venue.address.postcode != undefined
+                  ? venue.address.postcode
+                  : false,
+              ]
+                .filter(Boolean)
+                .join(", ");
+
+              if (address) {
+                venue.formattedAddress = address;
+              }
+            }
+
+            venue.id = result.docs[0].id;
+
+            resolve(venue);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
   },
   modules: {},
-  getters: {}
+  getters: {},
 });
 
 export default store;

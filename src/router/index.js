@@ -5,6 +5,7 @@ import Login from "../views/Login.vue";
 import Dashboard from "../views/Dashboard.vue";
 import Visit from "../views/Visit.vue";
 import { auth } from "../firebase";
+import store from "../store";
 
 Vue.use(VueRouter);
 
@@ -38,7 +39,8 @@ const routes = [
     path: "/:id",
     component: Visit,
     meta: {
-      title: "Log a Visit"
+      title: "Log a Visit",
+      headerless: true
     }
   }
 ];

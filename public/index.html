@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
   </head>
   <body>
     <noscript>
@@ -14,4 +15,11 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
-</html>
+  <script
+  src="https://browser.sentry-cdn.com/5.20.1/bundle.min.js"
+  integrity="sha384-O8HdAJg1h8RARFowXd2J/r5fIWuinSBtjhwQoPesfVILeXzGpJxvyY/77OaPPXUo"
+  crossorigin="anonymous"></script>
+  <script>
+  Sentry.init({ dsn: 'https://c654c045e71f4d568d6ce0b160b23249@o36017.ingest.sentry.io/5380066' });
+  </script>
+  </html>

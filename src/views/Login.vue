@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 import * as fb from "../firebase";
 
 export default {
@@ -50,16 +51,16 @@ export default {
       appVerifier: "",
       loginForm: {
         phone: "",
-        otp: ""
-      }
+        otp: "",
+      },
     };
   },
   methods: {
     login() {
       this.$store
         .dispatch("login", {
-          phone: this.loginForm.phone,
-          appVerifier: this.appVerifier
+          phone: this.formattedNumber,
+          appVerifier: this.appVerifier,
         })
         .then(success => {
           this.showOTP = success;
@@ -86,15 +87,25 @@ export default {
               // Response expired. Ask user to solve reCAPTCHA again.
               // ...
               console.log(error);
-            }
+            },
           }
         );
         //
         this.appVerifier = window.recaptchaVerifier;
       }, 1000);
-    }
+    },
   },
   computed: {
+    formattedNumber() {
+      if (this.loginForm.phone.length == 0) {
+        return "";
+      }
+      var parsed = parsePhoneNumberFromString(this.loginForm.phone, "GB");
+      if (!parsed) {
+        return "";
+      }
+      return parsed.number;
+    },
     canSubmit() {
       // TODO: validate for number
       return this.loginForm.phone != "";
@@ -102,10 +113,10 @@ export default {
     canSubmitOTP() {
       // TODO: Check for numbers only
       return this.loginForm.otp != "";
-    }
+    },
   },
   created() {
     this.recaptcha();
-  }
+  },
 };
 </script>
