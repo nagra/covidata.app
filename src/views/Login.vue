@@ -57,15 +57,18 @@ export default {
   },
   methods: {
     login() {
+      this.$store.dispatch("loading", true);
       this.$store
         .dispatch("login", {
           phone: this.formattedNumber,
           appVerifier: this.appVerifier,
         })
         .then(success => {
+          this.$store.dispatch("loading", false);
           this.showOTP = success;
         })
         .then(error => {
+          this.$store.dispatch("loading", false);
           console.log(error);
         });
     },

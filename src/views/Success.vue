@@ -11,6 +11,9 @@ export default {
     return {
       
     }
+  },
+  created() {
+    this.$store.dispatch("loading", false);
   }
 };
 </script>

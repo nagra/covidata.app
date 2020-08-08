@@ -87,6 +87,7 @@ export default {
   },
   methods: {
     log() {
+      this.$store.dispatch("loading", true);
       this.$store.dispatch("log", {
         log: {
           firstName: this.firstName,
