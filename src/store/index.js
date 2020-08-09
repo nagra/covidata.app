@@ -48,8 +48,9 @@ const store = new Vuex.Store({
       });
     },
     async verifyOTP({ dispatch }, code) {
-      this.state.confirmationResult.confirm(code).then(function(result) {
+      this.state.confirmationResult.confirm(code).then(async result => {
         dispatch("fetchUserProfile", result.user);
+        dispatch("fetchVisitsForOwner", result.user.uid);
       });
     },
     async fetchVisitsForOwner({ commit }, id) {
@@ -75,9 +76,8 @@ const store = new Vuex.Store({
     },
     async fetchUserProfile({ commit, dispatch }, user) {
       // fetch user profile
-      const userProfile = await fb.usersCollection.doc(user.uid).get();
-      // set user profile in state
-      dispatch("fetchVisitsForOwner", user.uid);
+      const userProfile = await fb.auth.currentUser;
+       // set user profile in state
       commit("setUserProfile", userProfile);
 
       // change route to dashboard
@@ -162,10 +162,10 @@ const store = new Vuex.Store({
             }
 
             venue.id = result.docs[0].id;
-
             resolve(venue);
           })
           .catch(error => {
+            console.log(error);
             reject(error);
           });
       });

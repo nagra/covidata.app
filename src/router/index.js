@@ -1,8 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Login from "../views/Login.vue";
-import Dashboard from "../views/Dashboard.vue";
 import Visit from "../views/Visit.vue";
 import Success from "../views/Success.vue";
 import { auth } from "../firebase";
@@ -17,23 +15,6 @@ const routes = [
     component: Home,
     meta: {
       title: "Covidata."
-    }
-  },
-  {
-    path: "/login",
-    name: "Login",
-    component: Login,
-    meta: {
-      title: "Login"
-    }
-  },
-  {
-    path: "/dashboard",
-    name: "Dashboard",
-    component: Dashboard,
-    meta: {
-      title: "Dashboard",
-      requiresAuth: true
     }
   },
   {
