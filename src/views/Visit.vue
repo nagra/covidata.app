@@ -46,7 +46,7 @@
           placeholder="Total Guests (including you)"
         />
         <div class="summary">
-          <h3 class="icon-privacy" v-bind:class="{ active: hasSummary }">
+          <h3 class="privacy" v-bind:class="{ active: hasSummary }">
             {{ venue.name }} only see
           </h3>
 
@@ -103,13 +103,16 @@ export default {
     },
     validateVenue() {
       this.$store.dispatch("loading", true);
-      this.$store.dispatch("getVenue", this.venueUsername).then(venue => {
-        this.$store.dispatch("loading", false);
-        this.isValidVenue = venue != undefined;
-        this.venue = venue;
-      }).catch(error => {
-        this.$store.dispatch("loading", false);
-      });
+      this.$store
+        .dispatch("getVenue", this.venueUsername)
+        .then(venue => {
+          this.$store.dispatch("loading", false);
+          this.isValidVenue = venue != undefined;
+          this.venue = venue;
+        })
+        .catch(error => {
+          this.$store.dispatch("loading", false);
+        });
     },
   },
   computed: {
@@ -201,11 +204,13 @@ button {
   column-gap: 0.5rem;
   justify-content: space-between;
 }
-.icon-privacy {
+.privacy {
+  background: url("../assets/static/img/hand-outline.svg") no-repeat left center;
   opacity: 0;
+  padding-left: 1.25em;
 
   &.active {
-    opacity: 1;
+    opacity: 0.5;
   }
 }
 .card {
@@ -231,7 +236,8 @@ button {
 }
 
 @media screen and (min-width: 400px) {
-  .visit, .invalid {
+  .visit,
+  .invalid {
     h1,
     address {
       text-align: center;
