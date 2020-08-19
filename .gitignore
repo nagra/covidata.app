@@ -26,3 +26,5 @@ pnpm-debug.log*
 .runtimeconfig.json
 .firebase/
 *.log
+
+functions/covidata-*.json
